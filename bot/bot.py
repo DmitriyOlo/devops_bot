@@ -1,5 +1,4 @@
 #поле для импортирования библиотек
-
 import re
 import telebot
 import logging
@@ -45,7 +44,6 @@ def execute_ssh_command(command):
         stdin, stdout, stderr = client.exec_command(command)
         data = stdout.read() + stderr.read()
         client.close()
-        #data = str(data).replace('\\n', '\n').replace('\\t', '\t')[2:-1]
         return data.decode('utf-8')
     except Exception as e:
         logger.error(f"Ошибка SSH: {str(e)}")
@@ -60,7 +58,6 @@ def execute_db_command(command):
         stdin, stdout, stderr = client.exec_command(command)
         data = stdout.read() + stderr.read()
         client.close()
-        #data = str(data).replace('\\n', '\n').replace('\\t', '\t')[2:-1]
         return data.decode('utf-8')
     except Exception as e:
         logger.error(f"Ошибка SSH: {str(e)}")
@@ -183,7 +180,6 @@ def get_ss(message):
     logger.info(f"/get_ss: {result}")
 
 @bot.message_handler(commands=['get_apt_list'])
-
 def get_apt_list(message):
     # Запрос выбора
     markup = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -201,7 +197,7 @@ def get_services(message):
 
 @bot.message_handler(commands=['get_repl_logs'])
 def get_repl_logs(message):
-    log_command = "tail -n 100 /var/log/postgresql/postgresql-13-main.log" 
+    log_command = "cat /var/log/postgresql/postgresql-13-main.log | grep repl | tail -n 20 " 
     log_data = execute_db_command(log_command)
     if log_data:
         send_long_message(message.chat.id, log_data, bot)
@@ -213,7 +209,7 @@ def get_repl_logs(message):
 @bot.message_handler(commands=['get_emails'])
 def send_emails(message):
     query = "SELECT * FROM emails;"
-    command = f"su - postgres -c \"psql -d pt_bot -t -A -c '{query}'\""
+    command = f"su - postgres -c \"psql -d {database} -t -A -c '{query}'\""
     email_data = execute_db_command(command)
     if email_data:
         bot.send_message(message.chat.id, "Email адреса:\n" + email_data)
@@ -223,7 +219,7 @@ def send_emails(message):
 @bot.message_handler(commands=['get_phone_numbers'])
 def send_phone_numbers(message):
     query = "SELECT * FROM phone_numbers;"
-    command = f"su - postgres -c \"psql -d pt_bot -t -A -c '{query}'\""
+    command = f"su - postgres -c \"psql -d {database} -t -A -c '{query}'\""
     phone_data = execute_db_command(command)
     if phone_data:
         bot.send_message(message.chat.id, "Номера телефонов:\n" + phone_data)
