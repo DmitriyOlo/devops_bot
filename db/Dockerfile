@@ -2,6 +2,9 @@ FROM postgres:13
 
 RUN apt-get update && apt-get install -y openssh-server && mkdir /var/run/sshd
 
+ARG REPLUSER
+ARG REPLPASSWORD
+
 ENV POSTGRES_DB=${DB_DATABASE:-pt_bot}
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=postgres
@@ -10,7 +13,10 @@ ENV REPL_PASSWORD=${DB_REPL_PASSWORD}
 ENV DB_USER=${DB_USER:-root}
 ENV DB_PASSWORD=${DB_PASSWORD:-kali}
 
-COPY init.sql /docker-entrypoint-initdb.d/
+COPY init.sql /init.sql
+RUN sed -i 's/replaceREPLUSER/'"$REPLUSER"'/g' /init.sql
+RUN sed -i 's/replaceREPLPASSWORD/'"$REPLPASSWORD"'/g' /init.sql
+RUN mv /init.sql /docker-entrypoint-initdb.d/init.sql
 
 RUN echo "logging_collector = on" >> /usr/share/postgresql/13/postgresql.conf.sample && \
     echo "log_directory = '/var/log/postgresql'" >> /usr/share/postgresql/13/postgresql.conf.sample && \
