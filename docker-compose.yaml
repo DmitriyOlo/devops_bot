@@ -25,7 +25,7 @@ services:
   db_image:
     container_name: db_image
     build:
-      context: ./bd
+      context: ./db
       args:
         - REPLUSER=${DB_REPL_USER}
         - REPLPASSWORD=${DB_REPL_PASSWORD}
