@@ -1,0 +1,6 @@
+paramiko
+psycopg2-binary
+python-dotenv
+docker
+telegram
+pyTelegramBotAPI
