@@ -1,0 +1,43 @@
+all:
+  hosts:
+    host01:
+      ansible_host: 192.168.1.14
+      ansible_user: ansible
+      ansible_password: ansible
+      dir: ../ # the same dir with playbook
+      DB_DATABASE: pt_bot 
+      DB_REPL_USER: repl_user
+      DB_REPL_PASSWORD: repl_password
+      DB_USER: root
+      DB_PASSWORD: kali
+      POSTGRES_VERSION: 13
+      DB_PORT: 5432
+      DB_PORT_SSH: 22
+
+    host02:
+      ansible_host: 192.168.1.17
+      ansible_user: ansible
+      ansible_password: ansible
+      DB_HOST: 192.168.1.14 
+      DB_REPL_USER: repl_user
+      DB_REPL_PASSWORD: repl_password
+      POSTGRES_VERSION: 13
+      DB_PORT: 5432
+
+    host03:
+      ansible_host: 192.168.1.15
+      ansible_user: ansible
+      ansible_password: ansible
+      dir: /home/ansible/bot 
+      TOKEN: '6822572693:AAGDT-u5UFKx2Z7lPMpBUIVFsYJPS0y-pR8'
+      RM_HOST: 192.168.1.14
+      RM_PORT: 22
+      RM_USER: root
+      RM_PASSWORD: kali
+      DB_HOST: 192.168.1.14 
+      DB_PORT: 5432
+      DB_PORT_SSH: 22
+      DB_USER: root
+      DB_PASSWORD: kali
+      DB_DATABASE: pt_bot
+      POSTGRES_VERSION: 13
