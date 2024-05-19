@@ -36,8 +36,8 @@ services:
     env_file:
       - .env
     ports:
-      - "5433:5432"
-      - "2222:22"
+      - "${DB_PORT}:5432"
+      - "${DB_PORT_SSH}:22"
     networks:
       - my_network
 
@@ -57,7 +57,7 @@ services:
     env_file:
       - .env
     ports:
-      - "5434:5432"
+      - "${DB_REPL_PORT}:5432"
     networks:
       - my_network
 
